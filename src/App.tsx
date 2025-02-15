@@ -30,10 +30,18 @@ const App: React.FC = () => {
       setResult(recipe);
 
       // 料理名をもとに、詳細な画像生成プロンプトを作成
-      const dishPrompt = `美味しそうな ${recipe.dishName}の写真。料理が食欲をそそる`;
+      const ingredientsText = recipe.ingredientsDetail.replace(/\n/g, ', ');
+      const dishPrompt = `
+        A high-quality, realistic food photograph of ${recipe.dishName}, 
+        Ingredients: ${ingredientsText}, 
+        plated elegantly in a restaurant-style setting, 
+        with vibrant colors, professional lighting, 
+        shallow depth of field, cinematic composition, 
+        warm ambiance, appetizing, delicious
+      `;
       console.log('画像生成プロンプト:', dishPrompt);
       setImageLoading(true);
-      const urls = await generateDishImages(dishPrompt, 4);
+      const urls = await generateDishImages(dishPrompt, 1);
       setImageLoading(false);
       if (urls && urls.length > 0) {
         setImageUrls(urls);
@@ -77,21 +85,21 @@ const App: React.FC = () => {
               {result.dishName}
             </h2>
             {/* 画像表示部分：横並びで、はみ出す場合は横スクロール */}
-            <div className="flex overflow-x-auto flex-nowrap items-center space-x-4 my-5">
-              {imageLoading ? (
-                Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="w-64 h-64 bg-gray-300 rounded-lg animate-pulse"></div>
-                ))
-              ) : (
-                imageUrls.map((url, index) => (
-                  <img
-                    key={index}
-                    src={url}
-                    alt={`${result.dishName} ${index + 1}`}
-                    className="w-64 h-64 object-cover rounded-lg shadow-md"
-                  />
-                ))
-              )}
+            <div className="flex overflow-x-auto flex-nowrap items-center space-x-4 my-5 justify-center">
+              {/* 画像表示部分：中央配置 */}
+              <div className="flex justify-center my-5">
+                {imageLoading ? (
+                  <div className="w-64 h-64 bg-gray-300 rounded-lg animate-pulse"></div>
+                ) : (
+                  imageUrls.length > 0 && (
+                    <img
+                      src={imageUrls[0]}
+                      alt={`${result.dishName}`}
+                      className="w-64 h-64 object-cover rounded-lg shadow-md mx-auto"
+                    />
+                  )
+                )}
+              </div>
             </div>
             <div className="text-gray-800 mb-4">
               {result.recipe?.map((step, index) => (
