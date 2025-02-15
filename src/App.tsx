@@ -58,7 +58,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-yellow-200 to-orange-400 flex flex-col items-center justify-center p-4">
       <div className="w-full md:max-w-4xl bg-white bg-opacity-90 rounded-2xl shadow-lg p-8">
         <h1 className="text-3xl font-bold text-orange-600 mb-4 text-center">
-          Palette Recipe
+          パレットレシピ
         </h1>
         <p className="mb-6 text-gray-700 text-center">
           食材を入力して、料理名、レシピ、及び材料の分量を生成しよう！
