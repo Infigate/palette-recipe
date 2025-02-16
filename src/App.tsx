@@ -26,7 +26,7 @@ const App: React.FC = () => {
     setImageLoading(false);
 
     try {
-      const recipe = await generateRecipe(ingredients, '');
+      const recipe = await generateRecipe(ingredients);
       setResult(recipe);
 
       // 料理名をもとに、詳細な画像生成プロンプトを作成
