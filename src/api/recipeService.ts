@@ -75,7 +75,12 @@ export const generateRecipe = async (
       const content: string = response.data.choices[0]?.message?.content;
       console.log('レシピレスポンス取得:', content);
       // JSON パースを試みる
-      const parsed: RecipeResponse = JSON.parse(content);
+      const extractJSON = (text: string): string => {
+        const match = text.match(/```json([\s\S]*?)```/);
+        return match ? match[1].trim() : text.trim();
+      };
+      const jsonContent = extractJSON(content);
+      const parsed: RecipeResponse = JSON.parse(jsonContent);
       console.log('レシピJSONパース成功:', parsed);
       return parsed;
     } catch (err: any) {
